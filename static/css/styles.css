@@ -21,3 +21,8 @@ btn {
   width: 15%;
   float: left;
 }
+
+.signupPic, img {
+  width: 50%;
+  margin-left: 20%;
+}
