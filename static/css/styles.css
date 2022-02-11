@@ -60,3 +60,8 @@ img {
     height: 765px;
     background-color: rgba(0,0,0,.6);
 }
+
+.homepageContainer {
+  position: absolute;
+  color: white;
+}
