@@ -11,3 +11,13 @@
     height: 100%;
   }
 }
+
+.loginBtn,
+btn {
+  background-color: #F8BB29 !important;
+}
+
+.blogLogo, img {
+  width: 15%;
+  float: left;
+}
