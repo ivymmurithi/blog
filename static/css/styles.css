@@ -14,7 +14,8 @@
 
 .loginBtn,
 btn {
-  background-color: #F8BB29 !important;
+  background-color: #55B8BC !important;
+  color: white;
 }
 
 .blogLogo, img {
@@ -25,4 +26,16 @@ btn {
 .signupPic, img {
   width: 50%;
   margin-left: 20%;
+}
+
+.signBtn {
+  background-color: #177EDE;
+}
+
+.signUpText {
+  color: #177EDE;
+}
+
+.loginText {
+  color: #55B8BC;
 }
