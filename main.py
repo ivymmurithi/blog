@@ -8,7 +8,9 @@ from forms import SignupForm,LoginForm
 from werkzeug.security import check_password_hash,generate_password_hash
 from flask_login import LoginManager, login_user
 from flask_login import login_required
+from flask_bootstrap import Bootstrap
 
+bootstrap = Bootstrap(app)
 manager = Manager(app)
 migrate = Migrate(app,db)
 
@@ -22,13 +24,9 @@ def load_user(user_id):
     return User.query.get(int(user_id))
 
 
-@app.before_first_request
-def create_user():
-    db.create_all()
-
-
 @app.route('/',methods=['GET','POST'])
 def home():
+    db.create_all()
     return render_template('index.html')
 
 
@@ -84,7 +82,7 @@ manager.add_command('db',MigrateCommand)
 
 @manager.shell
 def make_shell_context():
-    return dict(app=app,db=db,User=User)
+    return dict(app=app,db=db)
 
 if __name__ == '__main__':
     manager.run()
