@@ -4,9 +4,16 @@ from config import *
 from flask_script import Manager, Server
 from flask_migrate import Migrate,MigrateCommand
 from models.user_class import User
+from werkzeug.security import check_password_hash,generate_password_hash
+from flask_login import LoginManager
+from flask_login import login_required
 
 manager = Manager(app)
 migrate = Migrate(app,db)
+
+login_manager = LoginManager(app)
+login_manager.session_protection = 'strong'
+login_manager.login_view = 'login'
 
 
 @app.route('/')
