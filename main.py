@@ -33,6 +33,7 @@ def signup():
 
 
 @app.route('/posts')
+@login_required
 def posts():
     return render_template('posts.html')
 
