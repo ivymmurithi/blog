@@ -1,5 +1,5 @@
 from db import  app, db
-from flask import render_template,redirect,url_for
+from flask import render_template,redirect,url_for,session
 from config import *
 from flask_script import Manager, Server
 from flask_migrate import Migrate,MigrateCommand
@@ -38,11 +38,13 @@ def login():
     login_form = LoginForm()
 
     if login_form.validate_on_submit():
-        user = User.query.filter_by(email = login_form.email.data).first()
+        user = User.query.filter_by(username = login_form.username.data).first()
 
         if user:
             if check_password_hash(user.password, login_form.password.data):
                 login_user(user, remember=True)
+                session["user_id"] = user.id
+                session["email"]
                 return redirect(url_for('posts'))
 
     return render_template('login.html', login_form= login_form)
@@ -56,12 +58,13 @@ def signup():
     if signup_form.validate_on_submit():
         first_name = signup_form.first_name.data
         last_name = signup_form.last_name.data
+        username = signup_form.username.data
         email = signup_form.email.data
         password = signup_form.password.data
 
         hashed_password = generate_password_hash(password, method="sha256")
 
-        new_user = User(first_name=first_name,last_name=last_name,email=email,password=hashed_password)
+        new_user = User(first_name=first_name,last_name=last_name,username=username,email=email,password=hashed_password)
 
         db.session.add(new_user)
         db.session.commit()
