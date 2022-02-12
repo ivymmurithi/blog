@@ -6,7 +6,7 @@ from flask_migrate import Migrate,MigrateCommand
 from models.user_class import User
 from forms import SignupForm,LoginForm
 from werkzeug.security import check_password_hash,generate_password_hash
-from flask_login import LoginManager
+from flask_login import LoginManager, login_user
 from flask_login import login_required
 
 manager = Manager(app)
@@ -34,7 +34,18 @@ def home():
 
 @app.route('/login',methods=['GET','POST'])
 def login():
-    return render_template('login.html')
+
+    login_form = LoginForm()
+
+    if login_form.validate_on_submit():
+        user = User.query.filter_by(email = login_form.email.data).first()
+
+        if user:
+            if check_password_hash(user.password, login_form.password.data):
+                login_user(user, remember=True)
+                return redirect(url_for('posts'))
+
+    return render_template('login.html', login_form= login_form)
 
 
 @app.route('/signup',methods=['GET','POST'])
