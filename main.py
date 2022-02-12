@@ -4,6 +4,7 @@ from config import *
 from flask_script import Manager, Server
 from flask_migrate import Migrate,MigrateCommand
 from models.user_class import User
+from models.posts_class import Posts
 from forms import SignupForm,LoginForm
 from werkzeug.security import check_password_hash,generate_password_hash
 from flask_login import LoginManager, login_user
