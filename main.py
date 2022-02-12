@@ -23,6 +23,11 @@ def signup():
     return render_template('signup.html')
 
 
+@app.route('/posts')
+def posts():
+    return render_template('posts.html')
+
+
 manager.add_command('server',Server)
 manager.add_command('db',MigrateCommand)
 
