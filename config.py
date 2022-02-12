@@ -10,5 +10,6 @@ class Prodconfig(Config):
 class Devconfig(Config):
     FLASK_ENV = 'development'
     SQLALCHEMY_DATABASE_URI=os.environ['SQLALCHEMY_DATABASE_URI']
+    SECRET_KEY=os.environ['SECRET_KEY']
 
     DEBUG = True
