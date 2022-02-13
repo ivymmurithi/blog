@@ -87,6 +87,13 @@ def posts():
 
     return render_template('posts.html', posts_form=posts_form, user_id=session.get("user_id", None))
 
+@app.route('/view/posts',methods=['GET'])
+def view_posts():
+    
+    posts = Posts.query.filter_by().all()
+
+    return render_template('view_posts.html',posts=posts,user_id=session.get("user_id", None))
+
 
 manager.add_command('server',Server)
 manager.add_command('db',MigrateCommand)
