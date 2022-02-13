@@ -80,3 +80,43 @@ img {
   margin-left: 10%;
   width: 80vw;
 }
+
+.logo {
+  font-family: "Playfair Display", serif;
+  color: #177ede !important;
+}
+
+.navbar-nav {
+  float: right !important;
+}
+
+.quotesCard {
+  margin: 4%;
+}
+
+.postsCard {
+  margin: 4%;
+}
+
+.commentCard {
+  margin: 3%;
+}
+
+.viewLogo {
+  color: #55b8bc !important;
+  font-family: "Playfair Display", serif;
+}
+
+.randomLogo {
+  color: #D8402B !important;
+  font-family: "Playfair Display", serif;
+}
+
+.userStatus{
+  font-size: 1.2rem;
+  margin-top: 1%;
+}
+
+.postForm {
+  margin-top: 3%;
+}

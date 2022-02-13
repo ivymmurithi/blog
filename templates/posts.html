@@ -5,14 +5,14 @@
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">Blog Post</a>
+        <a class="navbar-brand logo" href="#">Blog Post</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
             aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-                <a class="nav-link" href="{{ url_for('view_posts') }}">Posts</a>
+                <a class="nav-link" href="{{ url_for('view_posts') }}">View Posts</a>
                 <a class="nav-link" href="{{ url_for('random_quotes') }}">Random Posts</a>
                 <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
             </div>
@@ -20,7 +20,7 @@
     </div>
 </nav>
 
-<div class="user">
+<div class="user text-start userStatus">
     Logged in as: {{ username }}
 </div>
 
@@ -28,7 +28,7 @@
 <form action="/posts" method="POST">
 
 
-    <div class="container">
+    <div class="container postForm">
         <div class="row">
             <div class="col-md-2"> </div>
             <div class="col-md-8">
