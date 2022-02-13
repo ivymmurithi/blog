@@ -32,7 +32,7 @@
             <footer class="blockquote-footer">{{ post.author }}<cite title="Source Title">Source Title</cite></footer>
         </blockquote>
 
-        <form id="comment-form" action="/comments?pitch_id={{posts.id}}" method="post">
+        <form id="comment-form" action="/comments?posts_id={{posts.id}}" method="post">
             <div class="input-group mb-3">
                 <input type="text" class="form-control" placeholder="New Comment" aria-label="Recipient's username"
                     aria-describedby="button-addon2" name="comment" id="comment">

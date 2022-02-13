@@ -81,13 +81,20 @@ def posts():
 
     if posts_form.validate_on_submit():
 
-        new_posts = Posts(posts = posts_form.posts.data)
+        if posts_form.validate_on_submit():
+            if not session.get("user_id", None):
+                return redirect(url_for("login"))
+
+        new_posts = Posts(posts = posts_form.posts.data, user_id = session["user_id"])
 
         db.session.add(new_posts)
         db.session.commit()
-        return redirect(url_for('posts'))
+        return redirect(url_for('view_posts'))
 
-    return render_template('posts.html', posts_form=posts_form, user_id=session.get("user_id", None))
+    if not session.get("username", None):
+        return redirect(url_for('login'))
+
+    return render_template('posts.html', posts_form=posts_form, username = session["username"], user_id=session.get("user_id", None))
 
 @app.route('/view/posts',methods=['GET'])
 def view_posts():
@@ -97,19 +104,12 @@ def view_posts():
         posts = Posts.query.filter_by(posts=filter).all()
     else:
         posts = Posts.query.filter_by().all()
+        comments = Comment.query.filter_by().all()
 
-    return render_template('view_posts.html',posts=posts)
-
-
-
-@app.route('/random',methods=['GET','POST'])
-def random_quotes():
-    display_quotes = get_quotes()
-
-    return render_template('random_quotes.html', display_quotes=display_quotes)
+    return render_template('view_posts.html',posts=posts,comments=comments, user_id=session.get("user_id", None))
 
 
-@app.route('/random',methods=['GET','POST'])
+@app.route('/comments', methods=['POST'])
 def add_comment():
     posts_id = request.args.get("posts_id", None)
     comment = request.form.get("comment", None)
@@ -118,8 +118,15 @@ def add_comment():
         db.session.add(comment)
         db.session.commit()
         return redirect(url_for('view_posts'))
+    
+    return redirect(url_for('view_posts'))
 
-    return redirect(url_for('view_posts.html'))
+
+@app.route('/random',methods=['GET','POST'])
+def random_quotes():
+    display_quotes = get_quotes()
+
+    return render_template('random_quotes.html', display_quotes=display_quotes)
 
 
 manager.add_command('server',Server)
