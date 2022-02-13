@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% import 'bootstrap/wtf.html' as wtf%}
 
+{% block content %}
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
@@ -19,15 +20,12 @@
     </div>
 </nav>
 
-{% block content %}
-
-
 <div class="user">
     Logged in as: {{ username }}
 </div>
 
 
-<form action="/pitches" method="POST">
+<form action="/posts" method="POST">
 
 
     <div class="container">
@@ -37,7 +35,6 @@
 
                 {{wtf.quick_form(posts_form)}}
 
-                <a href="view/pitches"><button type="button" class="btn viewButton btn-dark">View Pitches</button></a>
 
             </div>
             <div class="col-md-2"></div>

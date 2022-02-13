@@ -1,5 +1,5 @@
 from db import  app, db
-from flask import render_template,redirect,url_for,session
+from flask import render_template,redirect,url_for,session,request
 from config import *
 from flask_script import Manager, Server
 from flask_migrate import Migrate,MigrateCommand
@@ -46,7 +46,7 @@ def login():
                 session["username"] = user.username
                 return redirect(url_for('posts'))
 
-    return render_template('login.html', login_form= login_form,user_id=session.get("user_id", None))
+    return render_template('login.html', login_form=login_form,user_id=session.get("user_id", None))
 
 
 @app.route('/signup',methods=['GET','POST'])
@@ -78,19 +78,14 @@ def posts():
     posts_form = PostsForm()
 
     if posts_form.validate_on_submit():
-        if not session.get("user_id", None):
-            return redirect(url_for("login"))
 
-        new_posts = Posts(posts = posts_form.pitch.data,user_id = session["user_id"])
+        new_posts = Posts(posts = posts_form.posts.data,user_id = session["user_id"])
 
         db.session.add(new_posts)
         db.session.commit()
         return redirect(url_for('posts'))
 
-    if not session.get("username", None):
-        return redirect(url_for("login"))
-
-    return render_template('posts.html',posts_form=posts_form,username = session["username"], user_id=session.get("user_id", None))
+    return render_template('posts.html', posts_form=posts_form, user_id=session.get("user_id", None))
 
 
 manager.add_command('server',Server)
