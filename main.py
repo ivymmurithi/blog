@@ -10,6 +10,7 @@ from werkzeug.security import check_password_hash,generate_password_hash
 from flask_login import LoginManager, login_user
 from flask_login import login_required
 from flask_bootstrap import Bootstrap
+from requests import get_quotes
 
 bootstrap = Bootstrap(app)
 manager = Manager(app)
@@ -97,6 +98,15 @@ def view_posts():
         posts = Posts.query.filter_by().all()
 
     return render_template('view_posts.html',posts=posts)
+
+
+
+@app.route('/random',methods=['GET','POST'])
+def random_quotes():
+    display_quotes = get_quotes()
+
+    return render_template('random_quotes.html', display_quotes=display_quotes)
+
 
 
 manager.add_command('server',Server)
