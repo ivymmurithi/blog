@@ -79,7 +79,7 @@ def posts():
 
     if posts_form.validate_on_submit():
 
-        new_posts = Posts(posts = posts_form.posts.data,user_id = session["user_id"])
+        new_posts = Posts(posts = posts_form.posts.data)
 
         db.session.add(new_posts)
         db.session.commit()
@@ -89,10 +89,14 @@ def posts():
 
 @app.route('/view/posts',methods=['GET'])
 def view_posts():
-    
-    posts = Posts.query.filter_by().all()
 
-    return render_template('view_posts.html',posts=posts,user_id=session.get("user_id", None))
+    filter = request.args.get("posts", None)
+    if filter:
+        posts = Posts.query.filter_by(posts=filter).all()
+    else:
+        posts = Posts.query.filter_by().all()
+
+    return render_template('view_posts.html',posts=posts)
 
 
 manager.add_command('server',Server)
