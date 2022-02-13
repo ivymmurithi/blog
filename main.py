@@ -5,7 +5,7 @@ from flask_script import Manager, Server
 from flask_migrate import Migrate,MigrateCommand
 from models.user_class import User
 from models.posts_class import Posts
-from forms import SignupForm,LoginForm
+from forms import SignupForm,LoginForm,PostsForm
 from werkzeug.security import check_password_hash,generate_password_hash
 from flask_login import LoginManager, login_user
 from flask_login import login_required
@@ -43,10 +43,10 @@ def login():
             if check_password_hash(user.password, login_form.password.data):
                 login_user(user, remember=True)
                 session["user_id"] = user.id
-                session["email"]
+                session["username"] = user.username
                 return redirect(url_for('posts'))
 
-    return render_template('login.html', login_form= login_form)
+    return render_template('login.html', login_form= login_form,user_id=session.get("user_id", None))
 
 
 @app.route('/signup',methods=['GET','POST'])
@@ -69,13 +69,28 @@ def signup():
         db.session.commit()
         return redirect(url_for('login'))
 
-    return render_template('signup.html',signup_form=signup_form)
+    return render_template('signup.html',signup_form=signup_form,user_id=session.get("user_id", None))
 
 
 @app.route('/posts',methods=['GET','POST'])
-@login_required
 def posts():
-    return render_template('posts.html')
+
+    posts_form = PostsForm()
+
+    if posts_form.validate_on_submit():
+        if not session.get("user_id", None):
+            return redirect(url_for("login"))
+
+        new_posts = Posts(posts = posts_form.pitch.data,user_id = session["user_id"])
+
+        db.session.add(new_posts)
+        db.session.commit()
+        return redirect(url_for('posts'))
+
+    if not session.get("username", None):
+        return redirect(url_for("login"))
+
+    return render_template('posts.html',posts_form=posts_form,username = session["username"], user_id=session.get("user_id", None))
 
 
 manager.add_command('server',Server)
