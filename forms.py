@@ -4,9 +4,7 @@ from wtforms.validators import InputRequired,Email,Length
 
 class LoginForm(FlaskForm):
     username = StringField(label='Username',validators=[InputRequired()])
-    email = EmailField(label='Your Email Address',validators=[InputRequired(),Email()])
     password = PasswordField(label='Password',validators = [InputRequired(), Length(min=5, max = 50)])
-    remember = BooleanField(label='Remember me')
     submit = SubmitField(label='Login')
 
 
@@ -19,7 +17,7 @@ class SignupForm(FlaskForm):
     submit = SubmitField(label='Sign Up')
 
 class PostsForm(FlaskForm):
-    posts = StringField(label='pitch',validators=[InputRequired(), Length(min=10, max=100)])
+    posts = StringField(label='Add post',validators=[InputRequired(), Length(min=10, max=100)])
     user_id = HiddenField(label='user_id')
     submit = SubmitField(label='Submit')
 

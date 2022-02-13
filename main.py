@@ -9,9 +9,8 @@ from models.comments import Comment
 from forms import SignupForm,LoginForm,PostsForm
 from werkzeug.security import check_password_hash,generate_password_hash
 from flask_login import LoginManager, login_user
-from flask_login import login_required
 from flask_bootstrap import Bootstrap
-from requests import get_quotes
+from get_random import get_quotes
 
 bootstrap = Bootstrap(app)
 manager = Manager(app)
@@ -122,11 +121,17 @@ def add_comment():
     return redirect(url_for('view_posts'))
 
 
-@app.route('/random',methods=['GET','POST'])
+@app.route('/random',methods=['GET'])
 def random_quotes():
-    display_quotes = get_quotes()
+    display_randoms = get_quotes()
 
-    return render_template('random_quotes.html', display_quotes=display_quotes)
+    return render_template('random_quotes.html', randoms=display_randoms)
+
+
+@app.route('/logout')
+def logout():
+    session.clear()
+    return render_template('index.html',user_id=session.get("user_id", None))
 
 
 manager.add_command('server',Server)
