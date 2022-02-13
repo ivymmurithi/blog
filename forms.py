@@ -22,3 +22,6 @@ class PostsForm(FlaskForm):
     posts = StringField(label='pitch',validators=[InputRequired(), Length(min=10, max=100)])
     user_id = HiddenField(label='user_id')
     submit = SubmitField(label='Submit')
+
+class CommentsForm(FlaskForm):
+    comment = StringField(label='comment')
