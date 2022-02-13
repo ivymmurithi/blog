@@ -20,6 +20,5 @@ class SignupForm(FlaskForm):
 
 class PostsForm(FlaskForm):
     posts = StringField(label='pitch',validators=[InputRequired(), Length(min=10, max=100)])
-    category = StringField(label='category',validators=[InputRequired()])
     user_id = HiddenField(label='user_id')
     submit = SubmitField(label='Submit')
