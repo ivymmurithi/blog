@@ -5,6 +5,7 @@ from flask_script import Manager, Server
 from flask_migrate import Migrate,MigrateCommand
 from models.user_class import User
 from models.posts_class import Posts
+from models.comments import Comment
 from forms import SignupForm,LoginForm,PostsForm
 from werkzeug.security import check_password_hash,generate_password_hash
 from flask_login import LoginManager, login_user
@@ -107,6 +108,18 @@ def random_quotes():
 
     return render_template('random_quotes.html', display_quotes=display_quotes)
 
+
+@app.route('/random',methods=['GET','POST'])
+def add_comment():
+    posts_id = request.args.get("posts_id", None)
+    comment = request.form.get("comment", None)
+    if posts_id and comment:
+        comment = Comment(comment=comment, posts_id=posts_id, user_id=session["user_id"])
+        db.session.add(comment)
+        db.session.commit()
+        return redirect(url_for('view_posts'))
+
+    return redirect(url_for('view_posts.html'))
 
 
 manager.add_command('server',Server)

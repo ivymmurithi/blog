@@ -6,7 +6,7 @@ class Comment(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     comment = db.Column(db.String)
-    post_id = db.Column(db.Integer,db.ForeignKey('posts.id'))
+    posts_id = db.Column(db.Integer,db.ForeignKey('posts.id'))
     user_id = db.Column(db.Integer,db.ForeignKey('users.id'))
     user = relationship("User", backref="comments")
 
