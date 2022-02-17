@@ -1,5 +1,5 @@
 from db import  app, db
-from flask import render_template,redirect,url_for,session,request
+from flask import render_template,redirect,url_for,session,request,flash
 from config import *
 from flask_script import Manager, Server
 from flask_migrate import Migrate,MigrateCommand
@@ -45,7 +45,10 @@ def login():
                 login_user(user, remember=True)
                 session["user_id"] = user.id
                 session["username"] = user.username
+                flash('Login Successful!')
                 return redirect(url_for('posts'))
+            else:
+                flash('Invalid Username or Password!', 'error')
 
     return render_template('login.html', login_form=login_form,user_id=session.get("user_id", None))
 
@@ -68,6 +71,7 @@ def signup():
 
         db.session.add(new_user)
         db.session.commit()
+        flash('Account added successfully!')
         return redirect(url_for('login'))
 
     return render_template('signup.html',signup_form=signup_form,user_id=session.get("user_id", None))
@@ -131,6 +135,7 @@ def random_quotes():
 @app.route('/logout')
 def logout():
     session.clear()
+    flash('Logged out successfully!')
     return render_template('index.html',user_id=session.get("user_id", None))
 
 

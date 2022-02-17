@@ -1,6 +1,8 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField,SubmitField,PasswordField,EmailField,BooleanField,HiddenField
 from wtforms.validators import InputRequired,Email,Length
+from wtforms import ValidationError
+from models.user_class import User
 
 class LoginForm(FlaskForm):
     username = StringField(label='Username',validators=[InputRequired()])
@@ -15,6 +17,9 @@ class SignupForm(FlaskForm):
     email = EmailField(label='Email',validators=[InputRequired(),Email(message = 'Invalid Email')])
     password = PasswordField(label='Password',validators = [InputRequired(),Length(min=5, max=50)])
     submit = SubmitField(label='Sign Up')
+    def validate_email(form,email):
+        if User.query.filter_by(email=email.data).first():
+            raise ValidationError('Email exists')
 
 class PostsForm(FlaskForm):
     posts = StringField(label='Add post',validators=[InputRequired(), Length(min=10, max=100)])

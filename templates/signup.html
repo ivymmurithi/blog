@@ -15,6 +15,10 @@
 
                                 <p class="text-center h1 signUpText fw-bold mb-5 mx-1 mx-md-4 mt-4">Sign up</p>
 
+                                {% for message in get_flashed_messages() %}
+                                    {{ message }}
+                                {% endfor %}
+
                                 <form class="mx-1 mx-md-4 form" action="{{ url_for('signup') }}" method="post"  class="form" role="form">
                                     {{ signup_form.csrf_token() }}
                                     <div class="d-flex flex-row align-items-center mb-4">

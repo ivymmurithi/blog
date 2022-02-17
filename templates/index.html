@@ -11,6 +11,10 @@
         <h1>Ivy</h1>
     </div>
 
+    {% for message in get_flashed_messages() %}
+        {{ message }}
+    {% endfor %}
+
     <div class="homepageBody">
         <div class="welcomeTxt">
             <p class="h1 text-center">Welcome to Ivy's Personal Blog Post</p>
